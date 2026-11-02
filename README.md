@@ -20,20 +20,20 @@ Aplikasi web untuk membantu operasional usaha **Fotocopy IJA**, mulai dari penca
 ## Fitur
 
 - **Login dan pengaturan akun:** autentikasi berbasis sesi, logout, dan penggantian kata sandi.
-- **Dashboard pemilik:** ringkasan pendapatan, jumlah pesanan, transaksi dibayar, pesanan belum selesai, grafik pendapatan, dan layanan terpopuler.
+- **Dashboard admin:** ringkasan pendapatan, jumlah pesanan, transaksi dibayar, pesanan belum selesai, grafik pendapatan, dan layanan terpopuler.
 - **Dashboard pegawai:** ringkasan status dan daftar antrean pesanan.
 - **Pelanggan:** menambahkan pelanggan serta mencatat nama dan nomor HP.
-- **Katalog layanan:** melihat layanan dan tarif; pemilik dapat menambah, mengubah, dan menghapus layanan sesuai ketentuan relasi database.
+- **Katalog layanan:** melihat layanan dan tarif; admin dapat menambah, mengubah, dan menghapus layanan sesuai ketentuan relasi database.
 - **Pesanan:** memilih pelanggan, mencatat jenis dan kondisi dokumen, memilih beberapa layanan, memasukkan kuantitas dan catatan, serta menghitung total biaya.
 - **Pencarian pesanan:** mencari berdasarkan nama pelanggan atau ID pesanan dan memfilter status pengerjaan.
 - **Status pengerjaan:** `menunggu`, `diproses`, dan `selesai`.
 - **Pembayaran:** mencatat uang yang diterima, menghitung kembalian, dan menampilkan riwayat pembayaran.
 - **Cetak nota dan laporan:** melalui dialog cetak browser, termasuk opsi simpan PDF apabila tersedia.
-- **Laporan pemilik:** transaksi dan grafik pendapatan berdasarkan periode tanggal pembayaran, serta rekap unit layanan dari seluruh periode.
+- **Laporan admin:** transaksi dan grafik pendapatan berdasarkan periode tanggal pembayaran, serta rekap unit layanan dari seluruh periode.
 
 ## Hak Akses
 
-| Fitur | Pemilik / Admin | Pegawai |
+| Fitur | Admin | Pegawai |
 | --- | :---: | :---: |
 | Dashboard | Ringkasan bisnis dan grafik | Ringkasan operasional |
 | Melihat katalog layanan | Ya | Ya |
@@ -46,7 +46,7 @@ Aplikasi web untuk membantu operasional usaha **Fotocopy IJA**, mulai dari penca
 | Mengakses dan mencetak laporan | Ya | Tidak |
 | Mengganti kata sandi sendiri | Ya | Ya |
 
-Istilah **admin** pada antarmuka merujuk pada akun dengan nilai role `pemilik` di database.
+Istilah **admin** pada antarmuka merujuk pada akun dengan nilai role `admin` di database.
 
 ## Teknologi dan Kebutuhan
 
@@ -99,7 +99,7 @@ Buka [halaman instalasi lokal](http://localhost/si-fotocopy-ija-modular/install.
 
 Installer akan membuat tujuh tabel. Jika tabel `users` masih kosong, installer juga menambahkan:
 
-- Dua akun demo: pemilik dan pegawai.
+- Dua akun demo: admin dan pegawai.
 - Enam layanan contoh.
 - Lima pelanggan contoh.
 - Sebanyak 31 pesanan beserta detail dokumen, layanan, dan pembayaran contoh untuk pesanan yang dibayar.
@@ -120,22 +120,22 @@ Kemudian buka [installer](http://127.0.0.1:8000/install.php), atau [halaman logi
 
 | Peran | Username | Kata sandi |
 | --- | --- | --- |
-| Pemilik / Admin | `admin` | `admin123` |
+| Admin | `admin` | `admin123` |
 | Pegawai | `pegawai` | `pegawai123` |
 
 Akun ini dibuat oleh `install.php` ketika tabel `users` masih kosong. Gunakan untuk demonstrasi lokal dan ganti kata sandinya sebelum aplikasi digunakan dengan data nyata.
 
 ## Alur Penggunaan
 
-1. Masuk sebagai pemilik atau pegawai.
+1. Masuk sebagai admin atau pegawai.
 2. Tambahkan pelanggan melalui menu **Pelanggan**, jika belum terdaftar.
-3. Periksa katalog layanan. Pemilik dapat menyesuaikan nama layanan dan tarif.
+3. Periksa katalog layanan. Admin dapat menyesuaikan nama layanan dan tarif.
 4. Buka **Pesanan Baru**, pilih pelanggan, isi informasi dokumen, lalu tambahkan layanan dan jumlah unitnya.
 5. Simpan pesanan. Sistem menghitung total dan memberi status awal `menunggu`.
 6. Perbarui status pengerjaan melalui halaman detail pesanan.
 7. Catat pembayaran pada halaman detail dengan nominal minimal sebesar total tagihan. Sistem menghitung kembalian dan otomatis mengubah status menjadi `selesai`.
 8. Cetak nota jika diperlukan.
-9. Pemilik dapat membuka **Laporan & Grafik**, menentukan periode pembayaran, dan mencetak laporan.
+9. Admin dapat membuka **Laporan & Grafik**, menentukan periode pembayaran, dan mencetak laporan.
 
 Status pengerjaan dan status pembayaran ditampilkan terpisah. Mengubah status menjadi `selesai` secara manual tidak otomatis mencatat pembayaran.
 
@@ -150,7 +150,7 @@ Status pengerjaan dan status pembayaran ditampilkan terpisah. Mengubah status me
 | `login.php`, `logout.php` | Proses masuk dan keluar akun |
 | `actions/post.php` | Pemrosesan perubahan data melalui POST |
 | `layouts/header.php`, `layouts/footer.php` | Layout bersama dan navigasi |
-| `pages/admin/dashboard.php` | Dashboard pemilik |
+| `pages/admin/dashboard.php` | Dashboard admin |
 | `pages/pegawai/dashboard.php` | Dashboard pegawai |
 | `pages/buat.php`, `pages/pesanan.php`, `pages/detail.php` | Pembuatan, daftar, dan detail pesanan |
 | `pages/pelanggan.php`, `pages/layanan.php` | Pelanggan dan katalog layanan |
@@ -197,7 +197,7 @@ Tabel `users` menyimpan akun autentikasi secara terpisah dan tidak memiliki fore
 - Kata sandi disimpan menggunakan `password_hash()` dan diverifikasi dengan `password_verify()`.
 - Akses database menggunakan PDO dan prepared statements untuk masukan pengguna.
 - Formulir perubahan data menggunakan token CSRF.
-- Halaman laporan dan perubahan katalog layanan dibatasi untuk role `pemilik`.
+- Halaman laporan dan perubahan katalog layanan dibatasi untuk role `admin`.
 - Pendapatan dihitung dari **total tagihan pesanan yang telah dibayar**, bukan total uang diterima sebelum dikurangi kembalian.
 - Filter tanggal laporan berlaku pada transaksi dan grafik pendapatan. Rekap unit layanan pada halaman yang sama menggunakan seluruh periode.
 - Pembayaran harus lunas dalam satu pencatatan; belum tersedia fitur cicilan, pengembalian dana, atau payment gateway.
@@ -216,7 +216,7 @@ Tabel `users` menyimpan akun autentikasi secara terpisah dan tidak memiliki fore
 | Grafik tidak tampil | Periksa koneksi internet dan akses browser ke CDN Chart.js. |
 | Token keamanan tidak valid | Muat ulang halaman dan pastikan cookie sesi browser aktif. |
 | Layanan gagal dihapus | Periksa apakah layanan sudah digunakan dalam pesanan. |
-| Halaman laporan menampilkan akses ditolak | Masuk menggunakan akun dengan role `pemilik`. |
+| Halaman laporan menampilkan akses ditolak | Masuk menggunakan akun dengan role `admin`. |
 
 ## Dokumentasi
 
