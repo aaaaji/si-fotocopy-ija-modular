@@ -114,14 +114,6 @@ Buka [halaman login lokal](http://localhost/si-fotocopy-ija-modular/login.php), 
 
 Setelah instalasi berhasil, hapus `install.php` dari direktori yang dilayani web server dan ganti kata sandi kedua akun melalui **Pengaturan Akun**.
 
-### Alternatif: server bawaan PHP
-
-Jika PHP CLI tersedia dan MySQL sudah berjalan, jalankan perintah berikut dari direktori utama proyek:
-
-```bash
-php -S 127.0.0.1:8000
-```
-
 Kemudian buka [installer](http://127.0.0.1:8000/install.php), atau [halaman login](http://127.0.0.1:8000/login.php) jika instalasi sudah selesai. Server bawaan PHP digunakan untuk pengembangan lokal.
 
 ## Akun Demo
@@ -211,12 +203,6 @@ Tabel `users` menyimpan akun autentikasi secara terpisah dan tidak memiliki fore
 - Pembayaran harus lunas dalam satu pencatatan; belum tersedia fitur cicilan, pengembalian dana, atau payment gateway.
 - Dokumen dicatat sebagai informasi jenis dan kondisi; belum tersedia unggah berkas dokumen.
 - Daftar pesanan dan riwayat pembayaran masing-masing dibatasi maksimal 300 baris tanpa pagination.
-
-### Sebelum mengunggah ke GitHub
-
-`config.php` pada paket sumber memuat kredensial database secara langsung, sedangkan `.gitignore` masih kosong. Ganti kredensial pribadi dengan nilai contoh sebelum melakukan commit. Jika kredensial pernah dipublikasikan, ganti kata sandinya juga.
-
-Untuk pengembangan berikutnya, konfigurasi dapat dipisahkan ke file lokal yang diabaikan Git dan dilengkapi file contoh. Mekanisme `.env` belum diterapkan pada versi ini.
 
 ## Pemecahan Masalah
 
