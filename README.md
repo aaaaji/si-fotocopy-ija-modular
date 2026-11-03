@@ -15,7 +15,6 @@ Aplikasi web untuk membantu operasional usaha **Fotocopy IJA**, mulai dari penca
 - [Catatan Implementasi](#catatan-implementasi)
 - [Pemecahan Masalah](#pemecahan-masalah)
 - [Dokumentasi](#dokumentasi)
-- [Lisensi](#lisensi)
 
 ## Fitur
 
